@@ -1,9 +1,17 @@
 # Crack-Cycle-Analyzer
 
 ## 0. Contributors
-- Cheoljeong Park : @CheolJ
-- HongSung Uk : @HongSungUk
-- Jongwon Yoon : @jw3498
+- Cheoljeong Park : [@CheolJ](https://github.com/CheolJ)
+- HongSung Uk : [@HongSungUk](http://github.com/HongSungUk)
+- Jongwon Yoon : [@jw3498](http://github.com/jw3498)
+
+## 1. Study about
+
+## 2. Outcome
+
+## 3. References
+
+-------------------------------------------
 
 ### Academic Advisor
 - Seongjin Cho
