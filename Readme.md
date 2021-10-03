@@ -11,8 +11,12 @@ Correspondor
 '''
 Professor at Chungnam National University
 page : [amlkorea.com](http://amlkorea.com)
+
 e-mail : scho@cnu.ac.kr
+
 [google-scholar](https://scholar.google.co.kr/citations?user=fPkDoGsAAAAJ&hl=ko)
+
+end code block
 '''
 
 Special Thanks to
