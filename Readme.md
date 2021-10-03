@@ -11,8 +11,6 @@
 
 ## 3. References
 
--------------------------------------------
-
 ### Academic Advisor
 - Seongjin Cho
     - Professor at Chungnam National University
