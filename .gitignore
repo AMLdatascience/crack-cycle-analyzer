@@ -1,0 +1,9 @@
+# ignore data directory
+data/
+
+# ignore phto directory
+photo/
+
+# ignore presentation directory
+presentation/
+
