@@ -20,4 +20,4 @@
 
 ### Special thanks
 - Chan Park : [Google-scholar](https://scholar.google.co.kr/citations?user=WbTl5V0AAAAJ&hl=ko)
-- Jeongbeom Kang : [Google-scholar]()
+- Jeongbeom Kang : [Google-scholar](https://scholar.google.co.kr/citations?view_op=list_works&hl=ko&user=7YF2NMwAAAAJ)
