@@ -12,3 +12,6 @@ references/
 
 # ignore crack diretory
 crack/data/
+
+# ignore crack model-save
+crack/model_save/
