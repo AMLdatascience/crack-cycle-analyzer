@@ -10,7 +10,7 @@ import numpy as np
 import decimal
 
 # 데이터 불러오기
-db = pd.read_csv('data//211003_sensor_8.txt')
+db = pd.read_csv('data//211004_sensor_9_2.txt')
 db[['time', 'resistance', 'delx']] = pd.DataFrame(db[db.columns[0]].str.split('\t', 2).tolist())
 db = db.drop(['delx', db.columns[0]], 1)
 db = db.astype('float')
@@ -152,5 +152,51 @@ cycle_max_min = cycle_max_min.set_index('cycle_number', drop=True)
 
 cycle_max_min['difference'] = cycle_max_min['cycle_max'] - cycle_max_min['cycle_min']
 
-#pyplot.plot(cycle_max_min.index[0:43], cycle_max_min['difference'][0:43])
+# 센서 수명 끝나는 지점 계산
+life_end = pd.DataFrame([])
+for i in range(1, len(cycle_max_min)):
+    if cycle_max_min['cycle_max'][i]*20 < cycle_max_min['cycle_max'][i+1]:
+        life_end = life_end.append([1])
+    else :
+        life_end = life_end.append([0])
+life_end_index = pd.DataFrame(np.arange(1, int(cycle_max_min.index[-1]), 1)).reset_index(drop=True)
+life_end_index.rename(columns={0:"cycle_number"}, inplace = True)      
+life_end = pd.concat([life_end.reset_index(drop=True), life_end_index], axis=1)  
+life_end = life_end.set_index('cycle_number', drop=True)
+life_end.rename(columns={0:"life_end_detector"}, inplace = True)   
+cycle_max_min = cycle_max_min.join(life_end).dropna(axis=0)   
 
+# 그래프 그리기 
+cycle_max_min2 = cycle_max_min.copy()
+for i in range(1, len(cycle_max_min)-2):
+    if (cycle_max_min2['cycle_max'][i] + cycle_max_min2['cycle_max'][i+2]) < cycle_max_min2['cycle_max'][i+1]:
+        cycle_max_min2['cycle_max'][i+1] = (cycle_max_min2['cycle_max'][i] + cycle_max_min2['cycle_max'][i+2])/2
+        
+pyplot.plot(cycle_max_min2.index, cycle_max_min2['cycle_max'].rolling(window=10, center=True, min_periods=1).mean())
+pyplot.ylim(0,int(np.median(cycle_max_min2['cycle_max'])*2))
+pyplot.scatter(cycle_max_min2['life_end_detector'][cycle_max_min2['life_end_detector']==1].index[0], cycle_max_min2['cycle_max'][cycle_max_min2['life_end_detector'][cycle_max_min2['life_end_detector']==1].index[0]], s = 30, c = 'r')
+pyplot.vlines(cycle_max_min2['life_end_detector'][cycle_max_min2['life_end_detector']==1].index[0], 0, int(np.median(cycle_max_min2['cycle_max'])*2), color='red', linestyle='solid', linewidth=1)
+pyplot.xlabel("Cycles", size = 14)
+pyplot.ylabel("Resistance", size = 14)
+pyplot.title("SMU data (cycle max, moving average)")
+pyplot.show()
+pyplot.clf()
+
+pyplot.plot(cycle_max_min.index, cycle_max_min['cycle_max'])
+pyplot.ylim(0,int(np.median(cycle_max_min['cycle_max'])*2))
+pyplot.scatter(cycle_max_min['life_end_detector'][cycle_max_min['life_end_detector']==1].index[0], cycle_max_min['cycle_max'][cycle_max_min['life_end_detector'][cycle_max_min['life_end_detector']==1].index[0]], s = 30, c = 'r')
+pyplot.vlines(cycle_max_min['life_end_detector'][cycle_max_min['life_end_detector']==1].index[0], 0, int(np.median(cycle_max_min['cycle_max'])*2), color='red', linestyle='solid', linewidth=1)
+pyplot.xlabel("Cycles", size = 14)
+pyplot.ylabel("Resistance", size = 14)
+pyplot.title("SMU data (cycle max, raw)")
+pyplot.show()
+pyplot.clf()
+
+pyplot.plot(cycle_max_min.index, cycle_max_min['cycle_min'].rolling(window=10, center=True, min_periods=1).mean())
+pyplot.ylim(0,cycle_max_min['cycle_min'].median()*4)
+pyplot.hlines(cycle_max_min['cycle_min'].median(), 0, cycle_max_min.index[-1], color='red', linestyle='solid', linewidth=1)
+pyplot.xlabel("Cycles", size = 14)
+pyplot.ylabel("Resistance", size = 14)
+pyplot.title("SMU data (cycle min, moving average)")
+pyplot.show()
+pyplot.clf()
