@@ -9,3 +9,6 @@ presentation/
 
 # ignore reference folder
 references/
+
+# ignore crack diretory
+crack/data/
