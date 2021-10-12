@@ -7,3 +7,5 @@ photo/
 # ignore presentation directory
 presentation/
 
+# ignore reference folder
+references/
